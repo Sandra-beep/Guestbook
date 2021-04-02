@@ -1,33 +1,39 @@
-<!-- <pre>
+<pre>
 
 <?php
 
-//länk till upplägg för databasen
+session_start();
+// länk till upplägg för databasen
 include('db.php');
 
-$id = $_POST ['ID']; //ID på kommentaren inte userid
-$username = $_POST ['username'];
+$username = $_SESSION ['username'];
+$password = $_SESSION ['password'];
 $message = $_POST ['message'];
+// $ID = $userID?
 
+// Väljer först ut ID från users tabellen
+$sql_Select= "SELECT ID FROM users WHERE Username=:username_IN AND Password=:password_IN";
+$statement = $pdo->prepare($sql_Select);
+$statement>bindParam(":username_IN", $username);
+$statement->bindParam(":password_IN", $password);
+$statement->execute();
+$userID = $statement->fetch(); //varför userID?
 
-
-// hämtar info som user har skrivit in i form
-$sql = "INSERT INTO messages (message) VALUES (:message_IN)";
-$stm = $pdo->prepare($sql);
-// $stm->bindParam(':username_IN', $username);
+// Lägger in meddelande som en user har skrivit in i form
+$sql_Insert = "INSERT INTO entries (userID, Message) VALUES (:userID_IN, :message_IN)";
+$stm = $pdo->prepare($sql_Insert);
+$stm->bindParam(':userID_IN', $userID[0]); //userID kommer här!
 $stm->bindParam(':message_IN', $message);
 
 
-
-//If else som skickar till startsidan entries.php
+// If else som skickar till startsidan entries.php
 if($stm->execute()) {
-        // header("location:entries.php");
-    //
+        header("location:entries.php");
 }else{
-    echo "Det gick fel!";
+    echo "Något gick fel!";
 }
 
 
 ?>
 
-</pre> -->
+</pre>
