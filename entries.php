@@ -44,9 +44,8 @@ Redigera ditt meddelande! <br>
 </form>
 
 
-<?php
+<?php // Skriver ut alla kommentarer, endast inloggade kan se dessa
 
-// Skriver ut alla kommentarer, endast inloggade kan se dessa
 echo "<h2>Kommentarer!</h2>";
 
 
@@ -54,9 +53,12 @@ echo "<h2>Kommentarer!</h2>";
 
 
 // Plockar upp info från db
-$stm = $pdo->query("SELECT ID, Message FROM entries");
-
-// Hur får jag ut Username från users?
+$stm = $pdo->query('SELECT entries.ID, users.Username, entries.Message 
+FROM entries
+JOIN users
+ON users.ID=entries.userID');
+$stm->execute();
+$return = $stm->fetch();
 
 //echoa ut 
 while ($row = $stm->fetch()) {
