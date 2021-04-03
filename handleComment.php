@@ -12,8 +12,9 @@ $message = $_POST ['message'];
 // $ID = $userID?
 
 // Väljer först ut ID från users tabellen
-$sql_Select= "SELECT ID FROM users WHERE Username=:username_IN AND Password=:password_IN";
+$sql_Select= "SELECT ID FROM users WHERE ID=:userID AND Username=:username_IN AND Password=:password_IN";
 $statement = $pdo->prepare($sql_Select);
+$statement>bindParam(":ID_IN", $userID); //kan man göra såhär???
 $statement>bindParam(":username_IN", $username);
 $statement->bindParam(":password_IN", $password);
 $statement->execute();
@@ -24,7 +25,6 @@ $sql_Insert = "INSERT INTO entries (userID, Message) VALUES (:userID_IN, :messag
 $stm = $pdo->prepare($sql_Insert);
 $stm->bindParam(':userID_IN', $userID[0]); //userID kommer här!
 $stm->bindParam(':message_IN', $message);
-
 
 // If else som skickar till startsidan entries.php
 if($stm->execute()) {

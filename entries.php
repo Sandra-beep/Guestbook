@@ -7,11 +7,11 @@ include('db.php');
 
 if(isset($_SESSION['username'])) {
     echo "<h1> Välkommen " . $_SESSION['username'] . "! </h1>";
-// echo $_SESSION['password'];
-echo '<h4><button><a href="index.php">Logout</a></h4></button> <br>';
-  } else { 
+    // echo $_SESSION['password'];
+    echo '<h4><button><a href="index.php">Logout</a></h4></button> <br>';
+} else { 
     echo "Vänligen logga in igen <a href='login.php'>login</a> <br>";
-    die();
+     die();
   }
 
 
