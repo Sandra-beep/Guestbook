@@ -1,39 +1,27 @@
-<pre>
 
 <?php
 
 session_start();
-// länk till upplägg för databasen
-include('db.php');
+include('db.php'); //länk till databasen
 
-$username = $_SESSION ['username'];
-$password = $_SESSION ['password'];
-$message = $_POST ['message'];
-// $ID = $userID?
+// Definera variablarna
+$id = $_POST['id']; //ID på kommentaren, inte user
+$username = $_SESSION['username'];
+$comment = $_POST ['comment'];
 
-// Väljer först ut ID från users tabellen
-$sql_Select= "SELECT ID FROM users WHERE ID=:userID AND Username=:username_IN AND Password=:password_IN";
-$statement = $pdo->prepare($sql_Select);
-$statement>bindParam(":ID_IN", $userID); //kan man göra såhär???
-$statement>bindParam(":username_IN", $username);
-$statement->bindParam(":password_IN", $password);
-$statement->execute();
-$userID = $statement->fetch(); //varför userID?
+//Lägg in meddelande som en user har skrivit in i form
+$sqli = "INSERT INTO entries (ID, Username, Comment) VALUES(:id_IN, :username_IN, :comment_IN)";
+$stm = $pdo->prepare($sqli);
+$stm-> bindParam(':id_IN', $id);
+$stm-> bindParam(':username_IN', $username);
+$stm-> bindParam(':comment_IN, $comment');
+// execute eller fetch här???
 
-// Lägger in meddelande som en user har skrivit in i form
-$sql_Insert = "INSERT INTO entries (userID, Message) VALUES (:userID_IN, :message_IN)";
-$stm = $pdo->prepare($sql_Insert);
-$stm->bindParam(':userID_IN', $userID[0]); //userID kommer här!
-$stm->bindParam(':message_IN', $message);
 
-// If else som skickar till startsidan entries.php
-if($stm->execute()) {
-        header("location:entries.php");
+// If else som tar en till startsidan
+if($stm->execute){
+    header('location:entries.php');
 }else{
     echo "Något gick fel!";
 }
 
-
-?>
-
-</pre>
