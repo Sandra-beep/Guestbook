@@ -1,10 +1,15 @@
 
 <?php
-session_start();
-include 'db.php';
+include ("db.php");
 
-$idEdit = $_GET['id'];
+$id = $_POST['id'];
 
 // För att radera alla kommentarer som hör till den här usern
-$stm = $pdo->prepare("DELETE FROM comments where ID=" . $_GET['id']);
-$stm-> execute();
+$stm = $pdo->prepare("DELETE FROM entries where ID=$id");
+
+
+if($stm-> execute()){
+    header('location:entries.php');
+} else {
+    echo "Något gick fel!";
+}

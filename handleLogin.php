@@ -22,9 +22,7 @@
        $_SESSION['password'] = $password;
        $_SESSION['ID'] = $return['ID'];
 
-
        header("location:entries.php");
-
 
     } else {
         echo "Fel uppgifter!";

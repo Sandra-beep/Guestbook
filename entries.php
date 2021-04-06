@@ -5,6 +5,7 @@
 session_start();
 include('db.php');
 
+
 if(isset($_SESSION['username'])) {
     echo "<h1> Välkommen " . $_SESSION['username'] . "! </h1>";
     // echo $_SESSION['password'];
@@ -19,7 +20,6 @@ if(isset($_SESSION['username'])) {
 
 
 <form method="POST" action="handleComment.php">
-<input type ="hidden" name ="id" value="ID">
 Kommentera här <?php echo $_SESSION ['username']?>:
 <br>
 <textarea name = "comment"></textarea><br><br>
