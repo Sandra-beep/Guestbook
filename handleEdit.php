@@ -4,15 +4,15 @@
 //länk till upplägg för databasen
 include('db.php');
 
-$idEdit = $_POST['ID'];
+$idEdit = $_GET['id'];
 $newMessage = $_POST['newmessage'];
-$stm = $pdo->query("UPDATE messages SET message = '$newmessage' WHERE ID=$idEdit");
+$stm = $pdo->query("UPDATE entries SET Comment = '$newmessage' WHERE ID=$idEdit");
 
 
 if($stm->execute()){
     header("location:entries.php");
 } else {
-    echo "Ops! Något gick fel!";
+    echo "Ops! Kunde inte uppdatera - försök igen!";
 }
 
 ?>

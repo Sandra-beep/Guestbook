@@ -8,7 +8,8 @@ include('db.php');
 if(isset($_SESSION['username'])) {
     echo "<h1> Välkommen " . $_SESSION['username'] . "! </h1>";
     // echo $_SESSION['password'];
-    echo '<h4><button><a href="index.php">Logout</a></h4></button> <br>';
+    echo '<button><a href="editUser.php">Edit Profile</a></button>';
+    echo '<button><a href="index.php">Logout</a></button> <br><br>';
 } else { 
     echo "Vänligen logga in igen <a href='login.php'>login</a> <br>";
      die();
@@ -29,13 +30,14 @@ Kommentera här <?php echo $_SESSION ['username']?>:
 <br>
 <form method="POST" action="handleRemove.php">
 Ta bort ditt meddelande! <br>
-<input type="number" name="ID" placeholder="Välj ID-nr">
+<input type="number" name="id" placeholder="Välj ID-nr">
 <input type="submit" value="Ta bort!">
 </form> <br><br>
 
 <form method="POST" action="handleEdit.php">
 Redigera ditt meddelande! <br>
-<input type="number" name="ID" placeholder="Välj ID-nr">
+<input type="number" name="id" placeholder="Välj ID-nr"><br>
+<textarea name = "newmessage" placeholder="Nytt meddelande"></textarea><br>
 <input type="submit" value="Redigera!" >
 </form>
 
@@ -45,25 +47,12 @@ Redigera ditt meddelande! <br>
 echo "<h2>Kommentarer!</h2>";
 
 
-// // Variablar som definerar?
-$id = $_POST['id']; //ID på kommentaren, inte user
-$username = $_SESSION ['username'];
-$comment = $_POST['comment'];
+    $stm = $pdo->query('SELECT ID, Username, Comment FROM entries');
 
-// Plockar upp info från db
-$stm = $pdo->query('SELECT ID, Username, Comment FROM entries /*WHERE ID=:id_IN AND Username=:username_IN AND Comment=:comment_IN*/');
-// $stm->bindParam(':id_IN', $id);
-// $stm->bindParam(':username_IN', $username);
-// $stm->bindParam(':comment_IN', $comment);
-// $stm->execute();
-// $return = $stm->fetch();
-
-//echoa ut 
-while ($row = $stm->fetch()) {
-    echo $row['ID'] . " " . $row['Username'] . " " . $row['Comment'] . "<br />";
-} 
-
-echo $username . " skriver: " . $comment . "<br>";
+    while ($row = $stm->fetch()) {
+        echo $row['ID'] . " - " 
+        . $row['Username'] . "s " . "kommentar: " . $row['Comment'] . "<br>";       
+    }
 
 ?>
 

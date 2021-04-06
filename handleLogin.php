@@ -8,7 +8,7 @@
     $password = md5($password.$salt);
     
 
-    $stm = $pdo->prepare("SELECT count(ID) FROM users WHERE Username=:username_IN AND Password=:password_IN");
+    $stm = $pdo->prepare("SELECT ID FROM users WHERE Username=:username_IN AND Password=:password_IN");
     $stm->bindParam(":username_IN", $username);
     $stm->bindParam(":password_IN", $password);
     $stm->execute();
@@ -20,6 +20,8 @@
        session_start();
        $_SESSION['username'] = $username;
        $_SESSION['password'] = $password;
+       $_SESSION['ID'] = $return['ID'];
+
 
        header("location:entries.php");
 
